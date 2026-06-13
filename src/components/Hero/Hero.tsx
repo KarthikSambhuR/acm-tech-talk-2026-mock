@@ -172,7 +172,7 @@ export default function Hero() {
       <div className={styles.absoluteRobot}>
         <div className={styles.robotWrapper}>
           <Image
-            src="/robot.png"
+            src="/robot.webp"
             alt="TechTalk Robot Mascot"
             width={750}
             height={900}
