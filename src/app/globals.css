@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+/* ─── CSS Custom Properties ─────────────────────────────────── */
+:root {
+  /* Cream Light Mode (ACM Blue) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.45);
+  --bg-glass-border: rgba(255, 255, 255, 0.4);
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --accent-1: #30a9dd; /* Official ACM Blue */
+  --accent-2: #0284c7; /* Sky blue */
+  --accent-3: #0ea5e9; /* Light sky blue */
+  --accent-gradient: linear-gradient(135deg, #30a9dd 0%, #0284c7 100%);
+  --accent-gradient-wide: linear-gradient(135deg, #30a9dd 0%, #0284c7 50%, #0ea5e9 100%);
+
+  --shadow-sm: 0 2px 8px rgba(48, 169, 221, 0.04);
+  --shadow-md: 0 12px 32px rgba(48, 169, 221, 0.08);
+  --shadow-lg: 0 24px 64px rgba(48, 169, 221, 0.12);
+  --shadow-glow: 0 0 40px rgba(48, 169, 221, 0.2);
+
+  --border-color: rgba(48, 169, 221, 0.12);
+  --border-radius-sm: 8px;
+  --border-radius-md: 18px;
+  --border-radius-lg: 28px;
+  --border-radius-xl: 38px;
+  --border-radius-full: 9999px;
+
+  --navbar-height: 80px;
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme='dark'] {
+  /* High-Tech Premium Dark Mode (ACM Blue on Pure Black) */
+  --bg-primary: #000000;
+  --bg-secondary: #050505;
+  --bg-card: #0a0a0a;
+  --bg-glass: rgba(0, 0, 0, 0.45);
+  --bg-glass-border: rgba(255, 255, 255, 0.08);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.95);
+  --shadow-glow: 0 0 50px rgba(48, 169, 221, 0.3);
+
+  --border-color: rgba(48, 169, 221, 0.18);
+}
+
+/* ─── Reset & Base ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Grid Backdrop */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at 50% -20%, rgba(48, 169, 221, 0.15), transparent 60%),
+    radial-gradient(circle at 10% 80%, rgba(2, 132, 199, 0.05), transparent 40%),
+    linear-gradient(to right, var(--border-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-color) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 80px 80px, 80px 80px;
+  opacity: 0.6;
+}
+
+[data-theme='light'] .grid-bg {
+  background-image: 
+    radial-gradient(circle at 50% -20%, rgba(48, 169, 221, 0.08), transparent 60%),
+    radial-gradient(circle at 90% 80%, rgba(2, 132, 199, 0.03), transparent 40%),
+    linear-gradient(to right, var(--border-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-color) 1px, transparent 1px);
+}
+
+/* ─── Typography ─────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Urbanist', sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.serif-italic {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ─── Utility ────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.gradient-text-wide {
+  background: var(--accent-gradient-wide);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-1);
+  background: rgba(48, 169, 221, 0.06);
+  border: 1px solid var(--border-color);
+  padding: 8px 18px;
+  border-radius: var(--border-radius-full);
+  margin-bottom: 24px;
+}
+
+/* AgriFlyer Style Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 6px 6px 24px;
+  background: #ffffff;
+  color: #0f172a !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border: 1.5px solid rgba(48, 169, 221, 0.3);
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .btn-primary {
+  background: #0d0d0d;
+  color: #ffffff !important;
+  border: 1.5px solid rgba(48, 169, 221, 0.4);
+}
+
+[data-theme='dark'] .btn-primary:hover {
+  background: #141414;
+  border-color: var(--accent-1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(48, 169, 221, 0.25);
+  border-color: var(--accent-1);
+}
+
+.btn-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--accent-1);
+  color: #ffffff !important;
+  transition: var(--transition-fast);
+}
+
+.btn-primary:hover .btn-arrow {
+  transform: scale(1.08) rotate(-15deg);
+  background: var(--text-primary);
+}
+
+[data-theme='dark'] .btn-primary:hover .btn-arrow {
+  background: #000000;
+}
+
+/* Ghost Button in same style but transparent background */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 6px 6px 24px;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  font-weight: 700;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent-1);
+  background: rgba(48, 169, 221, 0.05);
+  transform: translateY(-2px);
+}
+
+.btn-ghost:hover .btn-arrow {
+  background: var(--accent-gradient);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+.section-header h2 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.section-header p {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding: 0 28px;
+  }
+
+  .section-header {
+    margin-bottom: 48px;
+  }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .section-header p {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+}
+
+@media (max-width: 520px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .section-header {
+    margin-bottom: 36px;
+    text-align: left;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.85rem, 10vw, 2.55rem);
+    margin-bottom: 14px;
+  }
+
+  .section-header p {
+    margin: 0;
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    padding: 7px 14px;
+    margin-bottom: 18px;
+  }
+
+  .btn-primary {
+    min-height: 48px;
+    font-size: 0.86rem;
+    padding: 5px 5px 5px 18px;
+  }
+
+  .btn-arrow {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-1);
+  border-radius: 4px;
+}
+
+/* ─── Selection ──────────────────────────────────────────────── */
+::selection {
+  background: var(--accent-1);
+  color: #fff;
+}

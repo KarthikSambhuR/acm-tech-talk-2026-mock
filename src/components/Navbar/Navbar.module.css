@@ -1,0 +1,494 @@
+/* ═══════════════════════════════════════════════════════════════
+   NAVBAR — 90% Frosted Glass + Real Refraction / Displacement
+   ═══════════════════════════════════════════════════════════════ */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: var(--navbar-height);
+  background: transparent;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PILL CONTAINER — The frosted glass slab
+   ═══════════════════════════════════════════════════════════════ */
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1100px;
+  height: 64px;
+  padding: 0 8px 0 24px;
+  margin-top: 14px;
+  border-radius: var(--border-radius-full);
+  pointer-events: all;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;           /* keeps pseudo layers clipped to pill */
+  transition: var(--transition);
+
+  /* ── FROSTING LAYER 1: The heavy milky base ──
+     72% white gives the 90% frosted look.
+     The backdrop-filter does the actual blurring of content behind. */
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(80px) saturate(160%) brightness(1.18) contrast(1.05);
+  -webkit-backdrop-filter: blur(80px) saturate(160%) brightness(1.18) contrast(1.05);
+
+  /* ── Depth shadows + chromatic edge refraction ──
+     The split red/blue side shadows simulate light splitting
+     through the glass prism edges (chromatic aberration) */
+  box-shadow:
+    /* Ambient lift */
+    0 8px 48px rgba(0, 0, 0, 0.10),
+    /* Chromatic aberration — left blue fringe */
+    -4px 0 16px rgba(48, 120, 255, 0.10),
+    /* Chromatic aberration — right warm fringe */
+    4px 0 16px rgba(255, 180, 48, 0.07),
+    /* ACM blue glow */
+    0 4px 20px rgba(48, 169, 221, 0.08),
+    /* Glass top-edge specular highlight */
+    inset 0 2px 0 rgba(255, 255, 255, 0.95),
+    /* Glass bottom-edge shadow */
+    inset 0 -1px 0 rgba(200, 220, 240, 0.6),
+    /* Left inner edge */
+    inset 2px 0 0 rgba(255, 255, 255, 0.7),
+    /* Right inner edge (dimmer) */
+    inset -1px 0 0 rgba(200, 210, 230, 0.4);
+}
+
+/* ── REFRACTION DISTORTION LAYER (::before) ──
+   Uses the SVG feDisplacementMap filter (#glass-distort defined in Navbar.tsx).
+   This element sits BEHIND the content and creates the wavy
+   lens distortion visible at the glass surface. */
+.inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  /* Wavy iridescent gradient that the displacement map will warp */
+  background: linear-gradient(
+    108deg,
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(48, 169, 221, 0.08) 25%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(100, 200, 255, 0.06) 75%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  /* Apply SVG displacement map for actual pixel-level warping */
+  filter: url(#glass-distort);
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+
+/* ── PRISMATIC BORDER (::after) ──
+   Gradient border that mimics glass catching light at edges. */
+.inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1.5px solid transparent;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.90) 0%,
+    rgba(200, 230, 255, 0.50) 20%,
+    rgba(48, 169, 221, 0.25) 45%,
+    rgba(255, 255, 255, 0.15) 65%,
+    rgba(180, 210, 255, 0.40) 85%,
+    rgba(255, 255, 255, 0.70) 100%
+  ) border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── DARK MODE ── */
+[data-theme='dark'] .inner {
+  background: rgba(8, 8, 12, 0.68);
+  backdrop-filter: blur(80px) saturate(140%) brightness(0.75) contrast(1.15);
+  -webkit-backdrop-filter: blur(80px) saturate(140%) brightness(0.75) contrast(1.15);
+  box-shadow:
+    0 8px 56px rgba(0, 0, 0, 0.75),
+    -4px 0 18px rgba(48, 100, 255, 0.12),
+    4px 0 18px rgba(255, 160, 48, 0.07),
+    0 4px 20px rgba(48, 169, 221, 0.10),
+    inset 0 2px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.60),
+    inset 2px 0 0 rgba(255, 255, 255, 0.08),
+    inset -1px 0 0 rgba(0, 0, 0, 0.30);
+}
+
+[data-theme='dark'] .inner::before {
+  background: linear-gradient(
+    108deg,
+    rgba(0, 0, 0, 0.0) 0%,
+    rgba(48, 169, 221, 0.10) 25%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(48, 100, 200, 0.08) 75%,
+    rgba(0, 0, 0, 0.0) 100%
+  );
+  mix-blend-mode: screen;
+}
+
+[data-theme='dark'] .inner::after {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(100, 180, 255, 0.12) 25%,
+    rgba(48, 169, 221, 0.20) 50%,
+    rgba(255, 255, 255, 0.06) 75%,
+    rgba(100, 140, 255, 0.14) 100%
+  ) border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+/* ── SCROLLED STATE ── deeper frost, tighter ── */
+.navbar.scrolled .inner {
+  backdrop-filter: blur(100px) saturate(180%) brightness(1.22) contrast(1.08);
+  -webkit-backdrop-filter: blur(100px) saturate(180%) brightness(1.22) contrast(1.08);
+  margin-top: 8px;
+  box-shadow:
+    0 12px 60px rgba(0, 0, 0, 0.14),
+    -5px 0 20px rgba(48, 120, 255, 0.12),
+    5px 0 20px rgba(255, 180, 48, 0.09),
+    0 4px 24px rgba(48, 169, 221, 0.12),
+    inset 0 2px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -1px 0 rgba(180, 210, 240, 0.65),
+    inset 2px 0 0 rgba(255, 255, 255, 0.75),
+    inset -1px 0 0 rgba(200, 215, 235, 0.45);
+}
+
+[data-theme='dark'] .navbar.scrolled .inner {
+  background: rgba(5, 5, 10, 0.75);
+  backdrop-filter: blur(100px) saturate(160%) brightness(0.70) contrast(1.20);
+  -webkit-backdrop-filter: blur(100px) saturate(160%) brightness(0.70) contrast(1.20);
+  box-shadow:
+    0 16px 72px rgba(0, 0, 0, 0.85),
+    -5px 0 22px rgba(48, 100, 255, 0.14),
+    5px 0 22px rgba(255, 150, 48, 0.08),
+    0 4px 24px rgba(48, 169, 221, 0.14),
+    inset 0 2px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.65),
+    inset 2px 0 0 rgba(255, 255, 255, 0.10),
+    inset -1px 0 0 rgba(0, 0, 0, 0.35);
+}
+
+/* ── Ensure content layers above pseudo-elements ── */
+.logo,
+.navLinks,
+.actions {
+  position: relative;
+  z-index: 3;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LOGO
+   ═══════════════════════════════════════════════════════════════ */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.logo:hover {
+  opacity: 0.82;
+  transform: scale(1.02);
+}
+
+.logoImg {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(48, 169, 221, 0.45));
+}
+
+.logoText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logoSub {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DESKTOP NAV LINKS
+   ═══════════════════════════════════════════════════════════════ */
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+}
+
+.navLink {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: 'Urbanist', sans-serif;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  position: relative;
+  letter-spacing: 0.01em;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 14px;
+  height: 2px;
+  background: var(--accent-1);
+  border-radius: 2px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navLink:hover {
+  color: var(--text-primary);
+  background: rgba(48, 169, 221, 0.09);
+}
+
+.navLink:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACTIONS
+   ═══════════════════════════════════════════════════════════════ */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(48, 169, 221, 0.08);
+  border: 1px solid rgba(48, 169, 221, 0.18);
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.themeToggle:hover {
+  background: rgba(48, 169, 221, 0.16);
+  border-color: var(--accent-1);
+  transform: rotate(20deg) scale(1.06);
+  box-shadow: 0 0 16px rgba(48, 169, 221, 0.28);
+}
+
+.themeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.registerBtn {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HAMBURGER
+   ═══════════════════════════════════════════════════════════════ */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  width: 32px;
+  margin-right: 8px;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE MENU — same heavy frosted glass
+   ═══════════════════════════════════════════════════════════════ */
+.mobileMenu {
+  position: absolute;
+  top: calc(var(--navbar-height) + 4px);
+  left: 20px;
+  right: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  border-radius: var(--border-radius-lg);
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(80px) saturate(160%) brightness(1.18);
+  -webkit-backdrop-filter: blur(80px) saturate(160%) brightness(1.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.70);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    -3px 0 14px rgba(48, 120, 255, 0.08),
+    3px 0 14px rgba(255, 180, 48, 0.06),
+    inset 0 2px 0 rgba(255, 255, 255, 0.90),
+    inset 0 -1px 0 rgba(200, 215, 240, 0.5);
+
+  transform: translateY(-14px) scale(0.97);
+  opacity: 0;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.25s ease;
+}
+
+[data-theme='dark'] .mobileMenu {
+  background: rgba(8, 8, 12, 0.68);
+  backdrop-filter: blur(80px) saturate(140%) brightness(0.75);
+  -webkit-backdrop-filter: blur(80px) saturate(140%) brightness(0.75);
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.75),
+    -3px 0 14px rgba(48, 100, 255, 0.10),
+    3px 0 14px rgba(255, 150, 48, 0.06),
+    inset 0 2px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55);
+}
+
+.mobileMenu.mobileMenuOpen {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobileLink {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Urbanist', sans-serif;
+  padding: 12px 16px;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-fast);
+  width: 100%;
+}
+
+.mobileLink:hover {
+  color: var(--text-primary);
+  background: rgba(48, 169, 221, 0.09);
+}
+
+.mobileRegister {
+  margin-top: 6px;
+  text-align: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  padding: 10px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .navbar {
+    height: 72px;
+    padding: 0 14px;
+  }
+
+  .inner {
+    height: 56px;
+    padding: 0 8px 0 16px;
+    margin-top: 10px;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .logoImg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .navLinks,
+  .registerBtn {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobileMenu {
+    display: flex;
+  }
+}
+
+@media (max-width: 420px) {
+  .navbar {
+    padding: 0 10px;
+  }
+
+  .inner {
+    padding-left: 14px;
+  }
+
+  .logoSub {
+    display: none;
+  }
+
+  .mobileMenu {
+    left: 10px;
+    right: 10px;
+  }
+}

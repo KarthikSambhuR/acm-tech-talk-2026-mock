@@ -1,0 +1,251 @@
+.footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding-top: 0;
+  position: relative;
+}
+
+.topLine {
+  height: 3px;
+  background: var(--accent-gradient-wide);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.3fr;
+  gap: 48px;
+  padding-top: 80px;
+  padding-bottom: 60px;
+}
+
+/* ── Brand column ── */
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.logoText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logoSub {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.brandDesc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 380px;
+  margin: 0;
+}
+
+.socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.socialIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(48, 169, 221, 0.05);
+  border: 1px solid rgba(48, 169, 221, 0.12);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.socialIcon:hover {
+  color: #ffffff !important;
+  background: var(--social-color, var(--accent-1)) !important;
+  border-color: transparent;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(48, 169, 221, 0.22);
+}
+
+/* ── Columns common headings ── */
+.colHeading {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* ── Quick links navigation column ── */
+.navCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.linkList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+}
+
+.footerLinkButton {
+  background: none;
+  border: none;
+  font-family: 'Urbanist', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  transition: var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+}
+
+.footerLinkButton:hover {
+  color: var(--accent-1);
+  transform: translateX(4px);
+}
+
+/* ── Event details info column ── */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.infoList li {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.infoLabel {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.infoValue,
+.infoList li a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.footerLink {
+  transition: var(--transition-fast);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.footerLink:hover {
+  color: var(--accent-1);
+}
+
+/* ── Footer base copyright bar ── */
+.bottomWrapper {
+  border-top: 1px solid var(--border-color);
+  width: 100%;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 28px;
+  padding-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.madeWith {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.heart {
+  display: inline-block;
+  color: #ef4444;
+  animation: heartPulse 1.8s infinite;
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* ── Responsive rules ── */
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-top: 40px;
+    padding-bottom: 30px;
+  }
+
+  .bottom {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 24px;
+    gap: 12px;
+  }
+
+  .colHeading {
+    margin-bottom: 12px;
+  }
+}

@@ -1,0 +1,375 @@
+.schedule {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Timeline Layout */
+.timelineContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Connected rows */
+  margin-top: 60px;
+}
+
+.timelineRow {
+  display: grid;
+  grid-template-columns: 160px 60px 1fr;
+  align-items: stretch;
+  position: relative;
+}
+
+/* ── Left Column: Time ── */
+.timeBlock {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-top: 18px;
+  padding-right: 12px;
+}
+
+.timeIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 8px 16px;
+  border-radius: var(--border-radius-full);
+  font-family: 'Urbanist', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.timeIcon {
+  color: var(--accent-1);
+  opacity: 0.8;
+}
+
+/* ── Center Column: Track & Nodes ── */
+.trackColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.node {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  margin-top: 12px;
+}
+
+.line {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--border-color) 0%,
+    rgba(48, 169, 221, 0.25) 50%,
+    var(--border-color) 100%
+  );
+  z-index: 1;
+}
+
+/* Last row gets fade out line */
+.timelineRow:last-child .line {
+  display: none;
+}
+
+/* ── Node Color Theme States ── */
+.talk {
+  border-color: var(--accent-1);
+  color: var(--accent-1);
+  background: rgba(48, 169, 221, 0.05);
+  box-shadow: 0 0 16px rgba(48, 169, 221, 0.12);
+}
+
+.workshop {
+  border-color: #0284c7;
+  color: #0284c7;
+  background: rgba(2, 132, 199, 0.05);
+  box-shadow: 0 0 16px rgba(2, 132, 199, 0.12);
+}
+
+.panel {
+  border-color: #0ea5e9;
+  color: #0ea5e9;
+  background: rgba(14, 165, 233, 0.05);
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.12);
+}
+
+.break {
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+  background: rgba(100, 116, 139, 0.04);
+}
+
+/* Hover effect on node */
+.timelineRow:hover .node {
+  transform: scale(1.1);
+  box-shadow: 0 0 24px rgba(48, 169, 221, 0.25);
+}
+
+/* ── Right Column: Session Cards ── */
+.cardColumn {
+  padding-left: 12px;
+  padding-bottom: 40px; /* Space between rows */
+  width: 100%;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: transparent;
+  transition: var(--transition-fast);
+}
+
+.timelineRow:hover .card {
+  transform: translateX(6px) translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(48, 169, 221, 0.3);
+}
+
+/* Left Accent Line according to Type on hover */
+.timelineRow:hover .cardColumn:has(.talk) .card::before { background: var(--accent-1); }
+.timelineRow:hover .cardColumn:has(.workshop) .card::before { background: #0284c7; }
+.timelineRow:hover .cardColumn:has(.panel) .card::before { background: #0ea5e9; }
+.timelineRow:hover .cardColumn:has(.break) .card::before { background: var(--text-muted); }
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.typeBadge {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: var(--border-radius-full);
+  display: inline-flex;
+  align-items: center;
+}
+
+.talkBadge {
+  background: rgba(48, 169, 221, 0.08);
+  color: var(--accent-1);
+  border: 1px solid rgba(48, 169, 221, 0.15);
+}
+
+.workshopBadge {
+  background: rgba(2, 132, 199, 0.08);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.15);
+}
+
+.panelBadge {
+  background: rgba(14, 165, 233, 0.08);
+  color: #0ea5e9;
+  border: 1px solid rgba(14, 165, 233, 0.15);
+}
+
+.breakBadge {
+  background: rgba(100, 116, 139, 0.08);
+  color: var(--text-muted);
+  border: 1px solid rgba(100, 116, 139, 0.15);
+}
+
+.title {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.speakerBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+
+.speakerIcon {
+  color: var(--accent-1);
+  opacity: 0.85;
+}
+
+.speakerName {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Responsive Collapse ── */
+@media (max-width: 900px) {
+  .schedule {
+    padding: 92px 0;
+  }
+
+  .timelineContainer {
+    margin-top: 44px;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule {
+    padding: 72px 0;
+  }
+
+  .timelineRow {
+    grid-template-columns: 1fr;
+    padding-left: 32px;
+    position: relative;
+  }
+
+  .timeBlock {
+    justify-content: flex-start;
+    padding-top: 0;
+    padding-left: 0;
+    margin-bottom: 12px;
+  }
+
+  .trackColumn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 24px;
+    align-items: center;
+  }
+
+  .node {
+    width: 28px;
+    height: 28px;
+    margin-top: 4px;
+  }
+
+  .node svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .line {
+    top: 36px;
+    bottom: 0;
+  }
+
+  .cardColumn {
+    padding-left: 0;
+    padding-bottom: 32px;
+  }
+
+  .card {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .cardHeader {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 1.08rem;
+  }
+}
+
+@media (max-width: 460px) {
+  .timelineContainer {
+    margin-top: 34px;
+  }
+
+  .timelineRow {
+    padding-left: 24px;
+  }
+
+  .trackColumn {
+    width: 18px;
+  }
+
+  .node {
+    width: 24px;
+    height: 24px;
+  }
+
+  .timeIndicator {
+    font-size: 0.78rem;
+    padding: 7px 12px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+  }
+
+  .typeBadge {
+    font-size: 0.62rem;
+    padding: 5px 11px;
+  }
+
+  .speakerBlock {
+    align-items: flex-start;
+  }
+
+  .description {
+    font-size: 0.86rem;
+  }
+}

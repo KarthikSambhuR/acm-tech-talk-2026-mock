@@ -1,0 +1,261 @@
+.speakers {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.carouselContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 540px;
+  perspective: 1200px;
+  margin-top: 40px;
+  overflow: visible;
+  width: 100%;
+}
+
+/* Card Wrapper */
+.cardWrapper {
+  position: absolute;
+  width: 100%;
+  max-width: 360px;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+/* Speaker Card - Full Bleed Image */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+  backface-visibility: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+}
+
+.cardActive {
+  border-color: var(--accent-1);
+  box-shadow: var(--shadow-glow), var(--shadow-md);
+}
+
+/* Image */
+.imageWrap {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.imageGlow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
+  z-index: 1;
+}
+
+/* Info */
+.info {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+}
+
+.name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.designation {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent-1);
+  margin-bottom: 2px;
+}
+
+.company {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bio {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 16px;
+  min-height: 72px;
+}
+
+/* Topics */
+.topics {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.topic {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent-1);
+  background: rgba(48, 169, 221, 0.06);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: var(--border-radius-full);
+}
+
+/* Social links */
+.social {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(48, 169, 221, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: var(--transition-fast);
+}
+
+.socialLink:hover {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+/* Navigation buttons */
+.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.navBtn:hover {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .speakers {
+    padding: 92px 0;
+  }
+
+  .carouselContainer {
+    min-height: 500px;
+    margin-top: 28px;
+    overflow: hidden;
+  }
+
+  .cardWrapper {
+    max-width: min(74vw, 340px);
+  }
+}
+
+@media (max-width: 640px) {
+  .speakers {
+    padding: 72px 0;
+  }
+
+  .carouselContainer {
+    min-height: 500px;
+    perspective: none;
+  }
+
+  .cardWrapper {
+    max-width: min(86vw, 320px);
+  }
+
+  .card {
+    border-radius: 8px;
+  }
+
+  .imageWrap {
+    height: 210px;
+  }
+
+  .info {
+    padding: 20px;
+  }
+
+  .name {
+    font-size: 1.18rem;
+  }
+
+  .bio {
+    min-height: auto;
+  }
+
+  .navigation {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 420px) {
+  .cardWrapper {
+    max-width: min(90vw, 300px);
+  }
+
+  .imageWrap {
+    height: 190px;
+  }
+}
