@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ACM TechTalk 2026 Website
 
-## Getting Started
+The official, production-ready web platform for **ACM TechTalk 2026**—the flagship annual technical symposium hosted by the ACM Student Chapter at Amal Jyothi College of Engineering (AJCE), Kerala. 
 
-First, run the development server:
+This platform is engineered for ultra-fast performance, high availability, and a modern user experience, showcasing the event schedule, featured speaker lineups, and registration pipelines.
+
+## 🚀 Architecture & Tech Stack
+
+The site is built as a fully decoupled, local-first, statically compiled web application leveraging the modern Next.js ecosystem.
+
+* **Framework:** [Next.js](https://nextjs.org/) (App Router architecture)
+* **Deployment Strategy:** Static Site Generation (SSG) via `output: 'export'` for zero-server overhead, maximum edge-caching capability, and instant page loads.
+* **Styling:** Tailwind CSS (configured with a dark-mode first, cyberpunk-inspired high-tech aesthetic).
+* **Assets:** Optimized vector graphics, customized component animations, and responsive responsive layouts designed to match the "Spark Innovation" theme.
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+Ensure you have [Node.js](https://nodejs.org/) (v18.x or higher) and a package manager (`npm`, `pnpm`, or `yarn`) installed.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/your-username/acm-techtalk-2026.git](https://github.com/your-username/acm-techtalk-2026.git)
+   cd acm-techtalk-2026
+
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+bun install
+
+```
+
+
+
+### Development Server
+
+Run the local development server with hot-reloading:
 
 ```bash
 npm run dev
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun run dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build & Static Export
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To compile the application into static HTML/CSS/JS assets (optimized for hosting on decentralized platforms, Cloudflare Pages, or traditional object storage like AWS S3/R2):
 
-## Learn More
+```bash
+npm run build
 
-To learn more about Next.js, take a look at the following resources:
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The build process triggers `next build` and generates an optimized production ready static bundle inside the `out/` directory.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌐 Key Sections Implemented
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* **Dynamic Countdown Timer:** A client-side optimized precision countdown component tracking the time remaining until August 13, 2026.
+* **Speaker Matrix:** A clean card grid showcasing key profiles from Google, Microsoft Research, IBM Quantum Labs, Razorpay, AWS, and the Ethereum Foundation.
+* **Interactive Timeline:** A step-by-step breakdown of the event schedule, optimized for scanability from the Morning Inauguration through to the Afternoon Ethical Hacking Workshops and Panel Discussions.
+* **Lead Capture & Inquiries:** A responsive connection module with integrated contact channels (`acm@ajce.in`) and a validation-ready user feedback form.
+```
